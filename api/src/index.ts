@@ -25,9 +25,10 @@ app.use(
 app.use(json());
 
 // Anslut till databasen
-mongoose.connect(
-  "mongodb+srv://sebastiantegel:UsMeHBSPvUpUoSs2@cluster0.a2ub8.mongodb.net/movieLibrary?retryWrites=true&w=majority"
-);
+const url = process.env.MONGO_URL;
+if (!url) process.exit(1);
+
+mongoose.connect(url);
 
 const database = mongoose.connection;
 
