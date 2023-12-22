@@ -50,22 +50,25 @@ moviesRouter.get("/:id", async (req: Request, res: Response) => {
 
 // UPDATE
 moviesRouter.put("/:id", async (req: Request, res: Response) => {
-  await movieModel.findByIdAndUpdate(req.params.id, {
-    title: req.body.title,
-    length: req.body.length,
-  });
+  try {
+    await movieModel.findByIdAndUpdate(req.params.id, {
+      title: req.body.title,
+      length: req.body.length,
+    });
 
-  const movie = await movieModel.findById(req.params.id);
+    const movie = await movieModel.findById(req.params.id);
 
-  res.status(200).json(movie);
+    res.status(200).json(movie);
+  } catch (error) {
+    res.status(400).json(error);
+  }
 });
 
 // DELETE
 moviesRouter.delete("/:id", async (req: Request, res: Response) => {
   try {
     await movieModel.findByIdAndDelete(req.params.id);
-
-    res.status(204).send();
+    res.status(200).send();
   } catch (error) {
     res.status(400).json(error);
   }
